@@ -1,0 +1,136 @@
+https://www.codementor.io/reactjs/tutorial/beginner-guide-setup-reactjs-environment-npm-babel-6-webpack
+
+Let's start from scratch
+************************
+Create a new folder 'react-hello-world' and initialize it with npm.
+-------------------------------------------------------------------
+mkdir react-hello-world
+cd react-hello-world
+npm init --> This will ask you a bunch of questions, and then write a package.json for you.
+
+Installing and Configuring Webpack
+**********************************
+Webpack is a module bundler which takes modules with dependencies and generates static assets by bundling them together based on some configuration.
+
+Let's start with installing webpack using npm
+---------------------------------------------
+1 - Use webpack in a project
+It’s the best to have webpack also as dependency in your project. Through this you can choose a local webpack version and will not be forced to use the single global one.
+npm install webpack --save-dev --> generate a directory node_modules in your project
+
+OR
+2- webpack
+npm i webpack -g --> webpack is now installed globally and the webpack command is available.
+
+
+Webpack requires some configuration settings
+--------------------------------------------
+to carry out its work and the best practice is doing it via a config file called webpack.config.js.
+
+touch webpack.config.js
+
+var webpack = require('webpack');
+var path = require('path');
+
+var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
+var APP_DIR = path.resolve(__dirname, 'src/client/app');
+
+var config = {
+  entry: APP_DIR + '/index.jsx',
+  output: {
+    path: BUILD_DIR,
+    filename: 'bundle.js'
+  }
+};
+
+module.exports = config;
+
+Let's create the index.jsx file 
+-------------------------------
+in the ./src/client/app and add the following code to verify this configuration.
+console.log('Hello World!');
+
+Now in the terminal run the following command
+----------------------------------------------
+./node_modules/.bin/webpack -d
+
+The above command runs the webpack in the development mode and generates the bundle.js file and its associated map file bundle.js.map in the src/client/public directory.
+
+To make it more interactive, create an index.html file 
+------------------------------------------------------
+in the src/client directory and modify it to use this bundle.js file
+
+Setting Up Babel-Loader
+***********************
+As we have seen in the beginning, by using JSX and ES6 we can be more productive while working with React. But the JSX syntax and ES6, are not supported in all the browsers.
+Hence, if we are using them in the React code, we need to use a tool which translates them to the format that has been supported by the browsers. It's where babel comes into the picture.
+
+npm i babel-loader babel-preset-es2015 babel-preset-react -S
+
+Create a .babelrc file and update it as below
+----------------------------------------------
+{
+  "presets" : ["es2015", "react"]
+}
+
+The next step is telling Webpack to use the babel-loader while bundling the file
+--------------------------------------------------------------
+open webpack.config.js file and update it as below
+
+// Existing Code ....
+var config = {
+  // Existing Code ....
+  module : {
+    loaders : [
+      {
+        test : /\.jsx?/,
+        include : APP_DIR,
+        loader : 'babel'
+      }
+    ]
+  }
+}
+
+Now we are done with all the setup. Let's write some code in React.
+
+Hello React
+************
+Use npm to install react and react-dom
+--------------------------------------
+npm i react react-dom -S
+
+Replace the existing console.log statement in the index.jsx with the following content
+-----------------------------------------------------------
+import React from 'react';
+import {render} from 'react-dom';
+
+class App extends React.Component {
+  render () {
+    return <p> Hello React!</p>;
+  }
+}
+
+render(<App/>, document.getElementById('app'));
+
+
+Then run the following command to update the bundle file with the new changes
+--------------------------------------------------------
+./node_modules/.bin/webpack -d
+OR
+sudo webpack
+
+Then test if you have it
+-------------------------
+npm test
+
+Adding Some Complexity
+**********************
+Making Webpack Watch Changes
+----------------------------
+webpack -d --watch
+
+
+
+
+
+
