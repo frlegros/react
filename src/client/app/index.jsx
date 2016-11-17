@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import AwesomeComponent from './AwesomeComponent.jsx';
+import Clock from './Clock.jsx';
 import Welcome from './Welcome.jsx';
 import Comment from './Comment.jsx';
 
@@ -14,6 +15,9 @@ class App extends React.Component {
     render () {
         return(
             <div>
+
+            <Clock/>
+            <Clock/>
             <Welcome name="Franck"/>
             <Welcome name="Sara"/>
             {/*<AwesomeComponent/>*/}
@@ -22,6 +26,5 @@ class App extends React.Component {
         );
     }
 }
-
 
 render(<App/>, document.getElementById('app'));

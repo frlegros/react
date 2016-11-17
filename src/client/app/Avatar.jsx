@@ -7,7 +7,7 @@ class Avatar extends React.Component{
             <img className="Avatar"
                  src={this.props.user.avatarUrl}
                  alt={this.props.user.name}
-                 style=""
+                 style={{width:'40px'}}
                  />
         );
     }
